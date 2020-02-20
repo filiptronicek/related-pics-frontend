@@ -19,7 +19,10 @@ function getImageRawData(url) {
   //Option with catch
   fetch(`https://related-pics.herokuapp.com/?url=${url}`)
     //.then(async r => jsonApiResponce = JSON.parse(r.text()))
-    .then(async r => computeData(await r.text()))
+    .then(async r => {
+      computeData(await r.text());
+      console.log("Done");
+    })
     .catch(e => console.error("Boo..." + e));
 
   //No fear...
@@ -29,8 +32,6 @@ function getImageRawData(url) {
 function formAction(data) {
   console.log("Starting");
   testImage(data.children[0].value).then(result => {
-    console.log("Done");
-
     if (result == "success") getImageRawData(data.children[0].value);
   });
 }
