@@ -6,15 +6,14 @@ new Vue({
   }
 });
 function output(data, output) {
-    const outputField = output ||'output';
-    const outPutFieldObject = document.getElementById(outputField);
-    outPutFieldObject.innerText = "That's " + data;
+  const outputField = output || "output";
+  const outPutFieldObject = document.getElementById(outputField);
+  outPutFieldObject.innerText = "That's " + data;
 }
 function computeData(data) {
-    console.log(JSON.parse(data));
-    output(JSON.parse(data).description.captions[0].text);
+  console.log(JSON.parse(data));
+  output(JSON.parse(data).description.captions[0].text);
 }
-
 
 function getImageRawData(url) {
   //Option with catch
@@ -28,7 +27,10 @@ function getImageRawData(url) {
 }
 
 function formAction(data) {
+  console.log("Starting");
   testImage(data.children[0].value).then(result => {
+    console.log("Done");
+
     if (result == "success") getImageRawData(data.children[0].value);
   });
 }
