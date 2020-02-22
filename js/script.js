@@ -31,10 +31,11 @@ function getImageRawData(url) {
     //.then(async r => jsonApiResponce = JSON.parse(r.text()))
     .then(async r => {
       computeData(await r.text());
-      output(
+      /*output(
         "Analyzing the image.... this may take up to 20 seconds",
         "status"
       );
+      */
       //showLoading(false);
     })
     .catch(e => {
