@@ -5,14 +5,24 @@ new Vue({
     imageInput: ""
   }
 });
-function output(data, output) {
+/*
+function showLoading(state) {
+  if (state) {
+    document.getElementById("loadingDiv").style.display = "block";
+  } else {
+    document.getElementById("loadingDiv").style.display = "none";
+  }
+}
+*/
+function output(data, mode, output) {
   const outputField = output || "output";
   const outPutFieldObject = document.getElementById(outputField);
-  outPutFieldObject.innerText = "That's " + data;
+  if (mode == "text") outPutFieldObject.innerText = `That's ${data}`;
+  else outPutFieldObject.innerText = data;
 }
 function computeData(data) {
   console.log(JSON.parse(data));
-  output(JSON.parse(data).description.captions[0].text);
+  output(JSON.parse(data).description.captions[0].text, "text");
 }
 
 function getImageRawData(url) {
@@ -21,16 +31,23 @@ function getImageRawData(url) {
     //.then(async r => jsonApiResponce = JSON.parse(r.text()))
     .then(async r => {
       computeData(await r.text());
-      console.log("Done");
+      output(
+        "Analyzing the image.... this may take up to 20 seconds",
+        "status"
+      );
+      //showLoading(false);
     })
-    .catch(e => console.error("Boo..." + e));
+    .catch(e => {
+      console.error("Boo..." + e);
+      output(e, "status");
+    });
 
   //No fear...
   (async () => console.log(await await fetch(url)))();
 }
 
 function formAction(data) {
-  console.log("Starting");
+  //showLoading(true);
   testImage(data.children[0].value).then(result => {
     if (result == "success") getImageRawData(data.children[0].value);
   });
